@@ -1,0 +1,37 @@
+    begin
+            prog = irexec
+            button = KEY_POWER2
+            config = volumioctrl power
+    end
+    begin
+            prog = irexec
+            button = KEY_SAVE
+            config = volumioctrl save
+    end
+    begin
+            prog = irexec
+            button = KEY_ENTER
+            config = volumioctrl enter
+    end
+    begin
+            prog = irexec
+            button = KEY_CHANNELDOWN
+            config = volumioctrl channeldown
+    end
+    begin
+            prog = irexec
+            button = KEY_CHANNELUP
+            config = volumioctrl channelup
+    end
+    begin
+            prog = irexec
+            button = KEY_KPPLUS
+            config = volumioctrl volumeup
+    end
+    begin
+            prog = irexec
+            button = KEY_KPMINUS
+            delay = 10
+            config = shutdown -h now 
+            #config = volumioctrl volumedown
+    end

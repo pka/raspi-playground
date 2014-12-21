@@ -1,0 +1,32 @@
+# TSOP4838 wiring:
+# http://wolf-u.li/4806/verwendung-des-tsop4838-am-gpio-header-des-raspberry-pi-unter-raspbmc/
+# Driver:
+# http://aron.ws/projects/lirc_rpi/
+
+- name: lirc package
+  apt: pkg=lirc state=present
+
+- name: speech synthesizer
+  apt: pkg=espeak state=present
+
+# Setup:
+# modprobe lirc_rpi
+# mode2 -d /dev/lirc0
+# irrecord -d /dev/lirc0 maxell-mxsb-252.conf
+# ...
+# irw
+
+- name: hardware.conf
+  copy: src=hardware.conf dest=/etc/lirc/ backup=yes
+  notify: restart lirc
+
+- name: lircd.conf
+  copy: src=maxell-mxsb-252.conf dest=/etc/lirc/lircd.conf
+  notify: restart lirc
+
+- name: volumioctrl script
+  copy: src=volumioctrl dest=/usr/local/bin/ mode=0755
+
+- name: lircrc
+  copy: src=lircrc dest=/etc/lirc/
+  notify: restart lirc

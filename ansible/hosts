@@ -1,0 +1,1 @@
+volumio ansible_ssh_host=volumio.local
