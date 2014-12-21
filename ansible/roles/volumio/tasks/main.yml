@@ -1,9 +1,3 @@
-#Fix according to http://volumio.org/forum/volumio-for-raspberry-model-t1574.html
-- name: hostname permission
-  file: name=/etc/hostname mode=666
-- name: hosts permission
-  file: name=/etc/hosts mode=666
-
 - name: initial apt-get update
   command: apt-get update
            creates=/var/lib/apt/lists/mirrordirector.raspbian.org_raspbian_dists_wheezy_Release

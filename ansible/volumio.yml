@@ -1,6 +1,6 @@
-# wget http://sourceforge.net/projects/volumio/files/Raspberry%20PI/1.4/Volumio1.41PI.zip/download
-# unzip Volumio1.41PI.zip
-# sudo dd bs=1M if=Volumio1.41PI.img of=/dev/mmcblk0
+# wget http://sourceforge.net/projects/volumio/files/Raspberry%20PI/1.5/Volumio1.51PI.img.zip/download
+# unzip Volumio1.51PI.img.zip
+# sudo dd bs=1M if=Volumio1.51PI.img of=/dev/mmcblk0
 #
 # ssh-copy-id root@volumio # Default password: 'volumio'
 #
