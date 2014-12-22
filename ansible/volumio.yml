@@ -13,3 +13,4 @@
   roles:
     - volumio
     - lirc-mpc
+    - collectd
