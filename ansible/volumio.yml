@@ -12,5 +12,6 @@
   gather_facts: False
   roles:
     - volumio
+    - { role: timezone, timezone: "Europe/Zurich" }
     - lirc-mpc
     - collectd
