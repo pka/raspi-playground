@@ -1,0 +1,12 @@
+LoadPlugin rrdcached
+<Plugin rrdcached>
+    DaemonAddress "unix:/var/run/rrdcached.sock"
+    #DataDir "/var/lib/rrdcached/db/collectd"
+    DataDir "/var/lib/collectd/rrd"
+    CreateFiles true
+</Plugin>
+
+#LoadPlugin rrdtool
+#<Plugin rrdtool>
+#	DataDir "/var/lib/collectd/rrd"
+#</Plugin>
