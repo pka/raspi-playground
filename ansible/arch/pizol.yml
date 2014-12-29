@@ -1,0 +1,17 @@
+# http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2
+#
+# ssh-copy-id root@pizol.fritz.box
+# cat ~/.ssh/id_rsa.pub | ssh root@pizol.fritz.box "mkdir ~/.ssh; cat >> ~/.ssh/authorized_keys"
+# Default password: 'root'
+# ssh root@pizol.fritz.box timedatectl set-timezone Europe/Zurich
+# ssh root@pizol.fritz.box pacman -S python2
+#
+# ansible-playbook -i hosts pizol.yml
+
+---
+- hosts: pizol
+  remote_user: root
+  gather_facts: False
+  roles:
+    - collectd
+    - arexx-logger

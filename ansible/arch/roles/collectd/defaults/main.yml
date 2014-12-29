@@ -1,0 +1,8 @@
+---
+collectd_hostname: "{{ ansible_fqdn }}"
+collectd_iface: eth0
+collectd_interval: 20
+collectd_threads: 5
+collectd_timeout: 2
+collectd_configs: ["system", "rrd"]
+rrdcached_disk_write_interval: 60

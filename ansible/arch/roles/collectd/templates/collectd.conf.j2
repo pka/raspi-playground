@@ -1,0 +1,25 @@
+FQDNLookup true
+#BaseDir "/var/lib/collectd"
+#PluginDir "/usr/lib/collectd"
+
+# Interval at which to query values. This may be overwritten on a per-plugin base.
+Interval {{ collectd_interval }}
+Timeout {{ collectd_timeout }}
+ReadThreads {{ collectd_threads }}
+
+LoadPlugin logfile
+<Plugin logfile>
+    LogLevel "info"
+    File "/var/log/collectd.log"
+    Timestamp true
+</Plugin>
+
+#LoadPlugin syslog
+
+# Logging
+LoadPlugin syslog
+<Plugin syslog>
+    LogLevel info
+</Plugin>
+
+Include "{{plugin_conf_dir}}/*.conf"

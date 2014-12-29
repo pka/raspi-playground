@@ -1,0 +1,13 @@
+[Unit]
+Description=Cache daemon for rrd values
+Before=collectd.service
+ 
+[Service]
+EnvironmentFile=/etc/conf.d/rrdcached
+ExecStart=/usr/bin/rrdcached -s "${RRDGROUP}" -m "${RRDMODE}" -l "${RRDADDRESS}" -p "${RRDPIDFILE}" ${RRDARGS}
+StandardOutput=journal
+StandardError=journal
+RemainAfterExit=yes
+ 
+[Install]
+WantedBy=multi-user.target
