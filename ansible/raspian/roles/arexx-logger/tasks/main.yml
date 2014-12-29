@@ -1,0 +1,40 @@
+- name: collectd python plugins
+  apt: pkg=libpython2.7 state=present
+  ignore_errors: yes
+# Fails on Volumio/Raspian (25.12.14)
+# The following packages have unmet dependencies:
+#  libpython2.7 : Depends: python2.7 (= 2.7.3-6+deb7u2) but 2.7.6-8 is to be installed
+# Raspian wheezy has version 2.7.3, but Volumio has 2.7.6 installed
+
+- name: python usb dependencies
+  apt: pkg={{item}} state=present
+  with_items:
+    - libusb-1.0-0
+    - python-pip
+  ignore_errors: yes
+
+- name: pyusb 1
+  pip: name=pyusb
+#Ubuntu 14.04:
+#sudo pip install --pre pyusb
+
+# Manual installation of libpython2.7:
+# apt-get download libpython2.7
+# dpkg -i --ignore-depends=python2.7 libpython2.7_2.7.3-6+deb7u2_armhf.deb
+# sudo ln -s /usr/lib/python2.7/plat-arm-linux-gnueabihf /usr/lib/python2.7/plat-linux2
+# Couldn't solve additional problems with this libpython2.7 version: _ctypes.so and module _io are missing
+
+# sys.path=['/usr/lib/python2.7', '/usr/lib/python2.7/plat-linux2',
+# '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old',
+# '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages',
+# '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
+
+- name: collectd plugin
+  copy: src={{item}} dest=/usr/local/lib/python2.7/dist-packages/
+  with_items:
+    - multilogger.py
+    - multilogger_collectd.py
+
+- name: multilogger config
+  copy: src=multilogger.conf dest=/etc/collectd/collectd.conf.d/
+  notify: restart collectd

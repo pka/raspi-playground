@@ -8,7 +8,7 @@
 - name: rrdcached config
   # Default for write to disk interval is 300s - see http://oss.oetiker.ch/rrdtool/doc/rrdcached.en.html)
   lineinfile: dest=/etc/default/rrdcached regexp=OPTS= line='OPTS="-l unix:/var/run/rrdcached.sock -w {{rrdcached_disk_write_interval}}"'
-  notify: rrdcached collectd
+  notify: restart rrdcached
 
 - name: copy configuration file
   template: src=collectd.conf.j2 dest=/etc/collectd/collectd.conf

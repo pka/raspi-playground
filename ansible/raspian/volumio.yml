@@ -15,3 +15,4 @@
     - { role: timezone, timezone: "Europe/Zurich" }
     - lirc-mpc
     - collectd
+    #- arrex-logger
