@@ -5,9 +5,9 @@ RRDDIR=/var/lib/collectd/rrd/pizol/multilogger
 
 echo Generating $PNG
 rrdtool graph $PNG \
--w 785 -h 120 -a PNG \
+-w 785 -h 400 -a PNG \
 --slope-mode \
---start -604800 --end now \
+--start -$((24*3600)) --end now \
 --lower-limit 15 --upper-limit 25 --rigid \
 --vertical-label "temperature (°C)" \
 DEF:temp1=$RRDDIR/gauge-9531.rrd:value:MAX \

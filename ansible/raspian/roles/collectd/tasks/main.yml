@@ -21,13 +21,3 @@
   template: src={{ item }}.conf.j2 dest={{ plugin_conf_dir }}/{{ item }}.conf
   with_items: collectd_configs 
   notify: restart collectd
-
-# Collectd Graph Panel - see also https://www.debinux.de/2014/01/systemstatus-mit-collectd-und-collectd-graph-panel/
-- name: download Collectd Graph Panel
-  get_url: url=https://github.com/pommi/CGP/archive/v0.4.1.zip dest=/root/cgp.zip
-- name: unzip CGP
-  unarchive: src=/root/cgp.zip dest=/var/www/ copy=no owner=www-data group=www-data
-- name: cgp symlink
-  file: src=/var/www/CGP-0.4.1 dest=/var/www/cgp state=link
-- name: rrdtool
-  apt: pkg=rrdtool state=present

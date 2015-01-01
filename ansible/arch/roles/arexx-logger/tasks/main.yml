@@ -17,6 +17,7 @@
   with_items:
     - multilogger.py
     - multilogger_collectd.py
+  notify: restart collectd
 
 - name: multilogger config
   copy: src=multilogger.conf dest=/etc/collectd/collectd.conf.d/

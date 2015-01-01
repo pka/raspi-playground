@@ -15,4 +15,5 @@
     - { role: timezone, timezone: "Europe/Zurich" }
     - lirc-mpc
     - collectd
+    - collectd-graph-panel
     #- arrex-logger
