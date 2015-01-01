@@ -1,0 +1,8 @@
+ACTION!="add", GOTO="libmtp_rules_end"
+ENV{MAJOR}!="?*", GOTO="libmtp_rules_end"
+
+# Samsung SE-208AB Slim Portable DVD Writer
+SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", ATTR{idProduct}=="1806", SYMLINK+="libmtp-%k", MODE="666", GROUP="audio", ENV{ID_MTP_DEVICE}="1", ENV{ID_MEDIA_PLAYER}="1"
+
+LABEL="libmtp_rules_end"
+

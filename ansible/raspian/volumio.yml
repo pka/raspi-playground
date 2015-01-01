@@ -14,6 +14,7 @@
     - volumio
     - { role: timezone, timezone: "Europe/Zurich" }
     - lirc-mpc
+    - cd-control
     - collectd
     - collectd-graph-panel
     #- arrex-logger

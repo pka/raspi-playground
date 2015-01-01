@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cmd=$1
+dev=$2
+
+mode=play
+#mode=rip
+
+# http://wiki.ubuntuusers.de/abcde
+# Wrapper for cdparanoia ripper, CDDB lookup and encoders
+# Other tipp:
+# My preferred tool is “abcde” , and I rip to single file flac, where the entire CD is in one file with an embedded cuesheet so it can be easily burned to a backup CD, or reripped. So if I want MP3s, I can point abcde at the flac and rips oggs easily.
+#
+# “abcde -L -1 -M -o flac” to rip the flac
+# then
+# “abcde -o ogg -L -d disc.flac” to rip ogg files from the flac.
+
+case $cmd in
+start)
+    chmod o+r $dev  # CDROM device has group cdrom and mode 660, but mpd is member of group audio only.
+    lasttrack=$(cdparanoia -d $dev --query 2>&1 | grep "no   no" | wc -l)
+    #tracks=$(abcde -d /dev/sr0 -N -a cddb,clean 2>&1 | grep -e '^[0-9]\+:')
+    cur=$(mpc playlist | wc -l)
+    for i in $(seq 1 $lasttrack); do
+        mpc add cdda://$dev/$i
+    done
+    mpc play $((cur+1))
+    mpc volume 100
+    ;;
+stop)
+    mpc volume 90
+    #TODO: Delete all tracks from playlist (mpc playlist | grep cdda://$dev)
+    ;;
+esac
