@@ -1,3 +1,13 @@
+# Boot procedure for USB disk detecion is very unreliable
+# Maybe it's a problem of udisks, or a Volumio/Raspian init.d problem
+# Symptom: 'udevadm monitor' shows KERNEL messages only, but no UDEV messages
+#
+# Manual restart procedure:
+# service udev restart
+# service dbus restart
+# service udisks-glue restart
+# service avahi-daemon restart
+
 - name: CD detection/handling
   apt: pkg={{item}} state=present
   with_items:
@@ -7,21 +17,21 @@
 - name: udev rules
   # check with udevadm monitor
   copy: src=69-usbdvd.rules dest=/etc/udev/rules.d/
-
-# /etc/init.d/udev restart
+  notify: restart udev
 
 - name: CD ripper
   apt: pkg={{item}} state=present
   with_items:
   - abcde
   - flac
+  - mkcue
 
 - name: cdctrl script
   copy: src=cdctrl dest=/usr/local/bin/ mode=0755
 
+- name: udisks-glue init.d
+  copy: src=udisks-glue dest=/etc/init.d/ mode=0755
+
 - name: udisks-glue.conf
   copy: src=udisks-glue.conf dest=/etc/
-
-- name: start udisks-glue
-  #TODO: create startup script
-  shell: killall udisks-glue; udisks-glue
+  notify: restart udisks-glue
