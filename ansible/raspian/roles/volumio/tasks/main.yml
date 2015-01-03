@@ -2,7 +2,16 @@
   command: apt-get update
            creates=/var/lib/apt/lists/mirrordirector.raspbian.org_raspbian_dists_wheezy_Release
 
-# Play favorite channel on boot (TODO):
+- name: rsync
+  apt: pkg=rsync state=present
+
+- name: Stations
+  synchronize: src=stations/ dest=/var/lib/mpd/music/WEBRADIO archive=no recursive=yes
+
+- name: Channels.m3u
+  copy: src=Channels.m3u dest=/var/lib/mpd/playlists/ owner=mpd group=audio
+
+# TODO: Reset channels on boot:
 # mpc clear
 # mpc load Channels
-# mpc play 3
+# mpc play 1
