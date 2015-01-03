@@ -1,59 +1,59 @@
 #!/bin/bash
 
 cmd=$1
-dev=$2
-
-mode=play
-#mode=rip
-#mode=initializing
 
 LOG=/var/log/cdctrl.log
+exec &>> $LOG
+echo $(date +"%F %T") $*
 
-echo $* >>$LOG
-
-# http://wiki.ubuntuusers.de/abcde
-# Wrapper for cdparanoia ripper, CDDB lookup and encoders
-# Other tipp:
-# My preferred tool is “abcde” , and I rip to single file flac, where the entire CD is in one file with an embedded cuesheet so it can be easily burned to a backup CD, or reripped. So if I want MP3s, I can point abcde at the flac and rips oggs easily.
-#
-# “abcde -L -1 -M -o flac” to rip the flac
-# then
-# “abcde -o ogg -L -d disc.flac” to rip ogg files from the flac.
+MODEFILE=/etc/cdctrl.mode
+test -f $MODEFILE || echo -n play >$MODEFILE
+mode=$(cat $MODEFILE)
 
 case $cmd in
 start)
+    pgrep abcde && (echo "abcde process already running - aborting"; exit)
+    dev=$2
     chmod o+r $dev  # CDROM device has group cdrom and mode 660, but mpd is member of group audio only.
-    tracks=$(abcde -d /dev/sr0 -N -a cddb,clean 2>&1 | grep -e '^[0-9]\+:')
-    #lasttrack=$(cdparanoia -d $dev --query 2>&1 | grep "no   no" | wc -l)
-    lasttrack=$(echo "$tracks" | wc -l)
-    if [ "$lasttrack" != "0" ]; then
-        cur=$(mpc playlist | wc -l)
-        #for i in $(seq 1 $lasttrack); do
-        #    mpc add cdda://$dev/$i
-        #done
+    if [ "$mode" == "rip" ]; then
+        # http://wiki.ubuntuusers.de/abcde
+        abcde -N -d $dev -x &
+    else
+        cddb=$(abcde -d $dev -N -a cddb,clean 2>&1)
+        echo "$cddb"
+        tracks=$(echo "$cddb" | grep -e '^[0-9]\+:')
+        #lasttrack=$(cdparanoia -d $dev --query 2>&1 | grep "no   no" | wc -l)
+        lasttrack=$(echo "$tracks" | wc -l)
+        if [ "$lasttrack" != "0" ]; then
+            cur=$(mpc playlist | wc -l)
+            #for i in $(seq 1 $lasttrack); do
+            #    mpc add cdda://$dev/$i
+            #done
 
-        #Generate pls file
-        exec 3>&1 # Save current stdout
-        exec > /var/lib/mpd/playlists/cd.pls
-        echo [playlist]
-        echo NumberOfEntries=$lasttrack
-        while read track; do
-            no=${track/: [^ ]*/}
-            title=${track/[0-9]*: /}
-            echo
-            echo File$no=cdda://$dev/$no
-            echo Title$no=$title
-            echo Length$no=-1
-        done <<<"$tracks"
-        exec 1>&3  # Restore stdout
-        mpc load cd.pls
+            #Generate pls file
+            exec 3>&1 # Save current stdout
+            exec > /var/lib/mpd/playlists/cd.pls
+            echo [playlist]
+            echo NumberOfEntries=$lasttrack
+            while read track; do
+                no=${track/: [^ ]*/}
+                title=${track/[0-9]*: /}
+                echo
+                echo File$no=cdda://$dev/$no
+                echo Title$no=$title
+                echo Length$no=-1
+            done <<<"$tracks"
+            exec 1>&3  # Restore stdout
+            mpc load cd.pls
 
-        mpc play $((cur+1))
-        #mpc volume 100
+            mpc play $((cur+1))
+            #mpc volume 100
+        fi
     fi
     ;;
 stop)
     # NOTE: mpd hangs when playing track of ejecting CD!
+    dev=$2
     cdtracks=$(mpc playlist --format=%file% | grep --line-number cdda://$dev | cut -d : -f 1 | tac)
     for t in $cdtracks; do
         mpc del $t
@@ -61,6 +61,10 @@ stop)
     done
     rm -f /var/lib/mpd/playlists/cd.pls
     ;;
+mode)
+    mode=$2
+    echo -n $mode >$MODEFILE
+    ;;
 esac
 
-date >>$LOG
+echo $(date +"%F %T") $* finished

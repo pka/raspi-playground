@@ -7,6 +7,7 @@
 # service dbus restart
 # service udisks-glue restart
 # service avahi-daemon restart
+# service lirc restart
 
 - name: CD detection/handling
   apt: pkg={{item}} state=present
@@ -24,7 +25,9 @@
   with_items:
   - abcde
   - flac
-  - mkcue
+
+- name: abcde.conf
+  copy: src=abcde.conf dest=/etc/ backup=yes
 
 - name: cdctrl script
   copy: src=cdctrl dest=/usr/local/bin/ mode=0755
