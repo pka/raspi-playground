@@ -2,16 +2,39 @@
 
 cmd=$1
 
-LOG=/var/log/cdctrl.log
+LOG=/var/log/mpdctrl.log
 exec &>> $LOG
 echo $(date +"%F %T") $*
 
-MODEFILE=/etc/cdctrl.mode
+MODEFILE=/etc/mpdctrl.mode
 test -f $MODEFILE || echo -n play >$MODEFILE
 mode=$(cat $MODEFILE)
 
 case $cmd in
-start)
+toggleplay)
+    mpc toggle
+    ;;
+resetchannels)
+    #reset playlist
+    mpc clear
+    mpc load Channels
+    mpc play
+    ;;
+saytitle)
+    text=$(mpc | head -n 1)
+    mpc toggle
+    espeak -ven+f3 -s150 --stdout "$text" | avplay -loglevel quiet -vn -autoexit -nodisp -
+    mpc toggle
+    ;;
+channeldown)
+    #'mpc next' removes current track from playlist
+    cur=$(mpc | sed 1d | grep '#' | sed 's/^.*#\([0-9]\+\).*/\1/')
+    mpc play $((cur+1))
+    ;;
+channelup)
+    mpc prev
+    ;;
+startcd)
     pgrep abcde && (echo "abcde process already running - aborting"; exit)
     dev=$2
     chmod o+r $dev  # CDROM device has group cdrom and mode 660, but mpd is member of group audio only.
@@ -51,7 +74,7 @@ start)
         fi
     fi
     ;;
-stop)
+removecd)
     # NOTE: mpd hangs when playing track of ejecting CD!
     dev=$2
     cdtracks=$(mpc playlist --format=%file% | grep --line-number cdda://$dev | cut -d : -f 1 | tac)
@@ -61,7 +84,7 @@ stop)
     done
     rm -f /var/lib/mpd/playlists/cd.pls
     ;;
-mode)
+cdmode)
     mode=$2
     echo -n $mode >$MODEFILE
     ;;

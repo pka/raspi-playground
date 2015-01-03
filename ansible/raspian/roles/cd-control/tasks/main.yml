@@ -29,9 +29,6 @@
 - name: abcde.conf
   copy: src=abcde.conf dest=/etc/ backup=yes
 
-- name: cdctrl script
-  copy: src=cdctrl dest=/usr/local/bin/ mode=0755
-
 - name: udisks-glue init.d
   copy: src=udisks-glue dest=/etc/init.d/ mode=0755
 

@@ -1,37 +1,35 @@
     begin
             prog = irexec
             button = KEY_POWER2
-            config = volumioctrl power
+            config = mpdctrl toggleplay
     end
     begin
             prog = irexec
             button = KEY_SAVE
-            config = volumioctrl save
+            config = mpdctrl resetchannels
     end
     begin
             prog = irexec
             button = KEY_ENTER
-            config = volumioctrl enter
+            config = mpdctrl saytitle
     end
     begin
             prog = irexec
             button = KEY_CHANNELDOWN
-            config = volumioctrl channeldown
+            config = mpdctrl channeldown
     end
     begin
             prog = irexec
             button = KEY_CHANNELUP
-            config = volumioctrl channelup
+            config = mpdctrl channelup
     end
     begin
             prog = irexec
             button = KEY_KPPLUS
-            config = volumioctrl volumeup
+            config = mpdctrl cdmode play
     end
     begin
             prog = irexec
             button = KEY_KPMINUS
-            delay = 10
-            config = shutdown -h now 
-            #config = volumioctrl volumedown
+            config = mpdctrl cdmode rip
     end
