@@ -13,7 +13,7 @@
   roles:
     - volumio
     - { role: timezone, timezone: "Europe/Zurich" }
-    - lirc-mpc
+    - lirc-mpd
     - cd-control
     - collectd
     - collectd-graph-panel
