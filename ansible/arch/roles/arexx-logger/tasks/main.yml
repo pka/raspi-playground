@@ -7,16 +7,8 @@
 - name: pyusb 1
   pip: name=pyusb executable=pip2
 
-# sys.path=['/usr/lib/python27.zip', '/usr/lib/python2.7',
-# '/usr/lib/python2.7/plat-linux2', '/usr/lib/python2.7/lib-tk',
-# '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload',
-# '/usr/lib/python2.7/site-packages']
-
-- name: collectd plugin
-  copy: src={{item}} dest=/usr/lib/python2.7/site-packages/
-  with_items:
-    - multilogger.py
-    - multilogger_collectd.py
+- name: multilogger_collectd plugin
+  pip: name=multilogger_collectd executable=pip2
   notify: restart collectd
 
 - name: multilogger config
