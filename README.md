@@ -1,7 +1,7 @@
-Rasperry playground
-===================
+Raspberry playground
+====================
 
-This is the home for some of my Rasperry Pi hobby projects.
+This is the home for some of my Raspberry Pi hobby projects.
 
 
 Pi soundbar
@@ -13,16 +13,16 @@ office desk.
 
 To use the additional keys of the soundbar remote control, I've connected an IR diode to the Pi as [described here](http://wolf-u.li/4806/verwendung-des-tsop4838-am-gpio-header-des-raspberry-pi-unter-raspbmc/) nicely.
 
-This [Ansible playbook](ansible/raspian/volumio.yml) adds LIRC with a configuration for the Maxell remote control to the Volumio based Rasperry. 
+This [Ansible playbook](ansible/raspian/volumio.yml) adds LIRC with a configuration for the Maxell remote control to the Volumio based Raspberry. 
 
 
 Temperature logger
 ------------------
 
-A while ago I've bought a TL500 temperature logger kit built by AREXX Engineering (http://www.arexx.com/). However, all Linux support they provide is a single statically linked binary,
-which can send data to a remote web server. So I decided to write a plugin for [collectd](http://collectd.org), my favorite tool to collect system information. In this setup, collectd writes RRD files (greetings to my university colleage Tobi Öttiker!), from which I locally generate temperature graphs.
+A while ago I've bought a TL500 temperature logger kit built by [AREXX Engineering](http://www.arexx.com/). However, all Linux support they provide is a single statically linked binary,
+which can send data to a remote web server. So I decided to write a plugin for [collectd](http://collectd.org), my favorite tool to collect system information. In this setup, collectd writes RRD files (greetings to my fellow student Tobi Öttiker!), from which I locally generate temperature graphs.
 
-See arexx-multilogger-collectd-plugin repo.
+See [arexx-multilogger-collectd-plugin](https://github.com/pka/arexx-multilogger-collectd-plugin) repo.
 
 
 Pizol webcam
@@ -36,4 +36,4 @@ These [Ansible playbook](ansible/arch/pizol.yml) configures a Raspberry Pi with 
 License
 -------
 
-This projects are licensed under the terms of the MIT license.
+These projects are licensed under the terms of the MIT license.
