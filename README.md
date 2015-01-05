@@ -1,17 +1,23 @@
-Raspberry playground
-====================
+RasPi playground
+================
 
 This is the home for some of my Raspberry Pi hobby projects.
 
 
-Pi soundbar
------------
+RasPi soundbar
+--------------
 
 My Raspberry Pi soundbar is a music box with basic functions on a remote control and an advanced GUI running in a web browser.
 The Raspberry Pi streaming sound box is based on [Volumio](http://volumio.org/), a specialized distribution for high quality sound with a nice GUI. I've chosen a soundbar from [Maxell](http://mgb.maxell.eu/de-ch/products/maxell-digital-soundbar-tv-speaker-mxsb-252-571.aspx) with HDMI inputs and a tiny remote control. The sound quality is not really audiophile, but good enough for my home
 office desk.
 
-To use the additional keys of the soundbar remote control, I've connected an IR diode to the Pi as [described here](http://wolf-u.li/4806/verwendung-des-tsop4838-am-gpio-header-des-raspberry-pi-unter-raspbmc/) nicely.
+The RasPi soundbar has the following capabilities:
+* Plays FLAC, OGG, MP3, etc. from local network, Web radios and streaming services
+* Digital HDMI output to soundbar
+* Web UI and minimal operation via common remote control
+* Plays and rips CDs from a USB CD drive
+
+To use the additional keys of the soundbar remote control, I've connected an IR diode to the Pi as [described here](http://wolf-u.li/4806/verwendung-des-tsop4838-am-gpio-header-des-raspberry-pi-unter-raspbmc/).
 
 This [Ansible playbook](ansible/raspian/volumio.yml) adds LIRC with a configuration for the Maxell remote control to the Volumio based Raspberry. 
 
