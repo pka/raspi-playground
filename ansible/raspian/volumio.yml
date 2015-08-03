@@ -1,6 +1,6 @@
-# wget http://sourceforge.net/projects/volumio/files/Raspberry%20PI/1.5/Volumio1.51PI.img.zip/download
-# unzip Volumio1.51PI.img.zip
-# sudo dd bs=1M if=Volumio1.51PI.img of=/dev/mmcblk0
+# wget http://sourceforge.net/projects/volumio/files/Raspberry%20PI/1.5/Volumio1.55PI.img.zip/download
+# unzip Volumio1.55PI.img.zip
+# sudo dd bs=1M if=Volumio1.55PI.img of=/dev/mmcblk0
 #
 # ssh-copy-id root@volumio # Default password: 'volumio'
 #
@@ -16,5 +16,5 @@
     - lirc-mpd
     - cd-control
     - collectd
-    - collectd-graph-panel
+    #- collectd-graph-panel
     #- arrex-logger
